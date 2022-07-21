@@ -1,6 +1,6 @@
 <template>
   <ContentBase>
-    首页
+    欢迎来到创新创业信息管理系统
   </ContentBase>
 </template>
 

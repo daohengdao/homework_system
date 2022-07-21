@@ -12,6 +12,12 @@ import CompReView from "@/views/CompReView";
 import CompRegisterView from "@/views/CompRegisterView";
 import BaseInfoView from "@/views/BaseInfoView";
 import CompRecruit from "@/views/CompRecruit";
+import TeamReview from "@/views/TeamReview";
+import TeamResume from "@/views/TeamResumeView";
+import SuccessView from "@/views/SuccessView";
+import CompPersonView from "@/views/CompPersonView";
+import updatePassword from "@/views/updatePassword";
+import coachingTeamView from "@/views/CoachingTeamView";
 
 
 
@@ -71,12 +77,42 @@ const routes = [
     path: '/web/comp/recruit/',
     name: 'compRecruit',
     component: CompRecruit
+  },
+  {
+    path: '/web/comp/person/',
+    name: 'compPerson',
+    component: CompPersonView
   }
   ,
+  {
+    path: '/web/team/review/',
+    name: 'teamReView',
+    component: TeamReview
+  },
+  {
+    path: '/web/team/resume/',
+    name: 'teamResume',
+    component: TeamResume
+  },
   {
     path: '/web/base/info',
     name: 'baseInfo',
     component: BaseInfoView
+  },
+  {
+    path: '/web/modify/password',
+    name: 'modifyPassword',
+    component: updatePassword
+  },
+  {
+    path: '/web/coach/team',
+    name:'coachTeam',
+    component: coachingTeamView
+  },
+  {
+    path: '/web/success',
+    name: 'success',
+    component: SuccessView
   },
   {
     path: '/web/404/',
@@ -86,7 +122,8 @@ const routes = [
   {
     path: '/:catchAll(.*)',
     redirect: "/web/404/"
-  },
+  }
+
 ]
 
 const router = createRouter({

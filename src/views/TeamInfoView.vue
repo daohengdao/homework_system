@@ -33,6 +33,8 @@
 <script>
 import ContentBase from "../components/ContentBase";
 import {ref} from "vue";
+import {useStore} from "vuex";
+import router from "@/router";
 
 export default {
   name: "TeamInfo",
@@ -41,6 +43,15 @@ export default {
   },
 
   setup(){
+
+    const store=useStore();
+
+    if (!store.state.user.is_team || store.state.user.identity=='老师'){
+      router.push({
+        name:'404'
+      })
+    }
+
     const test=
         [
           {

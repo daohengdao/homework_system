@@ -40,6 +40,8 @@
 <script>
 import ContentBase from "@/components/ContentBase";
 import {ref} from "vue";
+import {useStore} from "vuex";
+import router from "@/router";
 
 export default {
   name: "PointView",
@@ -47,49 +49,67 @@ export default {
     ContentBase
   },
   setup(){
-    const test=[
-      {
-        id:1,
-        compName:"开发大赛",
-        teamPoint:"特等奖",
-        memberPoint:[
-          {
-            username:"test",
-            name:"李华",
-            point:72,
-            ranking:1
-          },
-          {
-            username:"test2",
-            name:"李明",
-            point:70,
-            ranking:2
-          }
-        ]
-      },
-      {
-        id:2,
-        compName:"第二开发大赛",
-        teamPoint:"一等奖",
-        memberPoint:[
-          {
-            username:"test2",
-            name:"李明",
-            point:65,
-            ranking:1
-          },
-          {
-            username:"test2",
-            name:"李明",
-            point:55,
-            ranking:2
-          }
-        ]
-      }
-    ];
-
+    const store=useStore();
     let teams=ref([]);
-    teams.value=test;
+
+
+    if(!store.state.user.is_login){
+      router.push({
+        name:'login',
+      })
+    }else if (!store.state.user.is_team){
+      teams.value=null
+    }else if (store.state.user.identity=='队长' || store.state.user.identity=='队员'){
+      const test=[
+        {
+          id:1,
+          compName:"开发大赛",
+          teamPoint:"特等奖",
+          memberPoint:[
+            {
+              username:"test",
+              name:"李华",
+              point:72,
+              ranking:1
+            },
+            {
+              username:"test2",
+              name:"李明",
+              point:70,
+              ranking:2
+            }
+          ]
+        },
+        {
+          id:2,
+          compName:"第二开发大赛",
+          teamPoint:"一等奖",
+          memberPoint:[
+            {
+              username:"test2",
+              name:"李明",
+              point:65,
+              ranking:1
+            },
+            {
+              username:"test2",
+              name:"李明",
+              point:55,
+              ranking:2
+            }
+          ]
+        }
+      ];
+
+
+      teams.value=test;
+    }else {
+      router.push({
+        name:'404'
+      })
+    }
+
+
     return{
       teams
     }
