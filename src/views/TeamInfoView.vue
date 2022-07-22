@@ -9,7 +9,6 @@
       <th>性别</th>
       <th>身份</th>
       <th>学号</th>
-      <th>年龄</th>
       <th>联系方式</th>
     </tr>
     </thead>
@@ -21,7 +20,6 @@
       <td>{{team.sex}}</td>
       <td>{{team.identity}}</td>
       <td>{{team.stuNum}}</td>
-      <td>{{team.age}}</td>
       <td>{{ team.phone }}</td>
     </tr>
     </tbody>
@@ -61,7 +59,6 @@ export default {
             sex:"男",
             identity:"老师",
             stuNum:202012528,
-            age:16,
             phone:1254468225
           },
           {
@@ -71,7 +68,6 @@ export default {
             sex:"男",
             identity:"学生",
             stuNum:202012526,
-            age:16,
             phone:12544682255
           }
         ];

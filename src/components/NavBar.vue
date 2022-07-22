@@ -89,8 +89,6 @@ export default {
     const store=new useStore();
 
 
-    console.log(store.state.user.identity)
-    console.log(store.state.user.identity!='老师')
 
     const logout=()=>{
       store.commit("logout");

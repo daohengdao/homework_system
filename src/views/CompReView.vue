@@ -59,6 +59,7 @@ export default {
         uid:1,
         compId:1,
         compName:"比赛1",
+        github_id:1,
         teamId:1,
         teamName:"队伍1",
         github:"https://www.baidu.com",
@@ -70,7 +71,7 @@ export default {
         compId:2,
         compName:"比赛2",
         teamId:2,
-        github_id:1,
+        github_id:2,
         teamName:"队伍2",
         github:"https://www.bilibili.com",
         is_person: true,
@@ -101,6 +102,7 @@ export default {
           comp.is_review=true;
           let result={
             uid:comp.uid,
+            is_review:true,
             reward:reward
           }
           console.log(result)

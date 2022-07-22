@@ -58,7 +58,7 @@ export default {
       console.log(new Date(Date.parse(context.begin))<new Date())
 
       if(context.post=='' || context.post==null){
-        error_msg.value='比赛内容不能为空';
+        error_msg.value='招新内容不能为空';
       } else if(new Date(Date.parse(context.begin))>new Date(Date.parse(context.end))){
         error_msg.value='开始时间不能比结束时间晚';
       }else if (new Date(Date.parse(context.begin))<new Date()){

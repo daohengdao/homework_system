@@ -15,7 +15,7 @@
           <label for="password" class="form-label">确认密码</label>
           <input v-model="modifyPassword.new_passComfirm" type="password" class="form-control" id="confirm">
         </div>
-        <div class="error-msg">{{error_msg}}</div>
+        <div class="error_msg">{{error_msg}}</div>
         <button type="submit" class="btn btn-primary">修改</button>
       </form>
     </div>
@@ -56,13 +56,17 @@ export default {
     }
 
     const modify=()=>{
-      console.log(modifyPassword);
-      router.push({
-        name:'success',
-        params:{
-          flag:true
-        }
-      })
+      if (modifyPassword.new_password!=modifyPassword.new_passComfirm){
+        error_msg.value='两次输入的密码不一致'
+      }else {
+        console.log(modifyPassword);
+        router.push({
+          name:'success',
+          params:{
+            flag:true
+          }
+        })
+      }
     }
 
     return{

@@ -19,19 +19,20 @@
       <td>{{user.username}}</td>
       <td>{{user.context}}</td>
       <td>
-        <select class="form-select" aria-label="是否面试" v-model="is_interview">
+        <select class="form-select" aria-label="是否面试" v-model="user.is_interview" :disabled="user.flag">
           <option value="是">是</option>
           <option value="否">否</option>
         </select>
       </td>
       <td>
-        <select class="form-select"  v-model="result" aria-label="面试结果" >
+        <select class="form-select"  v-model="user.result" aria-label="面试结果"  :disabled="user.flag">
           <option value="通过" selected>通过</option>
           <option value="未通过" >未通过</option>
         </select>
       </td>
       <td>
-        <button type="submit" class="btn btn-primary" @click="confirm(is_interview,result,user)" v-if="!user.flag">确认</button>
+        <button type="submit" class="btn btn-primary" @click="confirm(user)" v-if="!user.flag">确认</button>
+        <button type="submit" class="btn btn-primary"  v-else disabled>已审核</button>
       </td>
     </tr>
     </tbody>
@@ -65,29 +66,36 @@ export default {
         name:"张三",
         username:"test",
         context:"特长1........",
-        flag:false
+        flag:false,
+        is_interview:'',
+        result:''
       },
       {
         id:"2",
         name:"李四",
         username:"test1",
         context:"特长2........",
-        flag: false
+        flag: false,
+        is_interview: '',
+        result: ''
       }
     ];
 
     let users=ref([]);
     users.value=test;
 
-    const confirm=(is_interview,result,user)=>{
-      if (is_interview=="否" && result=="通过"){
+
+    const confirm=(user)=>{
+      if (user.is_interview=="否" && user.result=="通过"){
         alert("选项矛盾,请重新选择");
+      }else if(user.is_interview =="" || user.result==""){
+        alert('请选择下拉框')
       }else {
         user.flag=true;
         let results={
           id:user.id,
-          is_interview,
-          result
+          is_interview:user.is_interview,
+          result:user.result
         }
         console.log(results);
       }

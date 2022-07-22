@@ -70,10 +70,10 @@ const ModuleUser={
                    teamId:"1",
                    name:"张三",
                    phone:"1215555666",
-                   identity:"老师",
+                   identity:"队长",
                    teacher:"老师1",
                    stuNum:"02566596626",
-                   is_team:false
+                   is_team:true
                };
 
                context.commit('updateUser',{

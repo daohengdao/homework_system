@@ -91,6 +91,10 @@ export default {
         }
       }
 
+      for (let i=0;i<test.count;i++) {
+        console.log(result.value[i])
+      }
+
       let is_person=true;
       let review={
         uid,
@@ -98,7 +102,7 @@ export default {
       }
 
       console.log(review)
-      console.log(result.value)
+
     }
 
     return{

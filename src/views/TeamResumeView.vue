@@ -3,11 +3,11 @@
 
     <div class="card edit-field">
       <div class="card-body">
-        姓名:{{message.name}}
+        姓名:{{$store.state.user.name}}
       </div>
       <div class="card edit-field">
         <div class="card-body">
-          用户名:{{message.username}}
+          用户名:{{$store.state.user.username}}
         </div>
       </div>
     </div>
@@ -30,6 +30,7 @@ import ContentBase from "@/components/ContentBase";
 import {ref} from "vue";
 import {useRoute} from "vue-router/dist/vue-router";
 import router from "@/router";
+import {useStore} from "vuex";
 
 export default {
   name: "TeamResume",
@@ -39,11 +40,9 @@ export default {
 
 
   setup(){
+    const store=useStore();
 
-    const test={
-      name:"张三",
-      username:"test1",
-    }
+    console.log(store.state.user.name)
 
     let error_msg=ref('');
     const route = useRoute();
@@ -54,7 +53,7 @@ export default {
     const teamId=route.params.teamId;
 
 
-    if (typeof(teamName)=='undefined'){
+    if (typeof(teamName)=='undefined' || !store.state.user.is_login){
       router.push({
         name:'404',
       });
@@ -67,6 +66,7 @@ export default {
         error_msg.value='简历内容不能为空';
       }else{
         let result={
+          userId:store.state.user.userId,
           teamId,
           content:content.value,
           flag:true
@@ -86,11 +86,7 @@ export default {
     }
 
 
-    let message=ref([]);
-    message=test;
-
     return{
-      message,
       error_msg,
       teamName,
       content,

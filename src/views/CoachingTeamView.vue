@@ -56,7 +56,6 @@ export default {
         uid:2,
         teamName:'队伍2',
         teacher:"",
-        result: ""
       }
     ];
 
@@ -67,7 +66,7 @@ export default {
     const coaching=team=>{
       let req={
         team:team.uid,
-        teacherId:store.state.user.userId
+        teacher:store.state.user.userId
       }
 
       team.teacher=store.state.user.username
@@ -78,7 +77,7 @@ export default {
     const uncoaching=team=>{
       let req={
         team:team.uid,
-        teacherId:store.state.user.userId
+        teacher:store.state.user.userId
       }
 
       team.teacher=''
