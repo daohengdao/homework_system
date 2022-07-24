@@ -50,6 +50,8 @@ import ContentBase from "@/components/ContentBase";
 import {ref} from "vue";
 import router from "@/router";
 import {useStore} from "vuex";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "CompRegisterView",
@@ -57,48 +59,17 @@ export default {
     ContentBase
   },
   setup(){
-    const test=[
-      {
-        uid:1,
-        compName:'开发大赛1',
-        context:'开发的比赛',
-        begin:'2022-07-20T10:26',
-        end:'2022-07-30T10:26',
-        comp_flag:true,
-        end_flag:false,
-      },
-      {
-        uid:2,
-        compName:'开发大赛2',
-        context:'开发的比赛',
-        begin:'2022-07-05T10:26',
-        end:'2022-07-06T10:26',
-        comp_flag: false,
-        end_flag: false
-      },
-      {
-        uid:3,
-        compName:'开发大赛3',
-        context:'开发的比赛',
-        begin:'2022-07-25T10:26',
-        end:'2022-07-27T10:26',
-        comp_flag: false,
-        end_flag: false
-      },
-      {
-        uid:4,
-        compName:'开发大赛4',
-        context:'开发的比赛',
-        begin:'2022-07-05T10:26',
-        end:'2022-07-06T10:26',
-        comp_flag: true,
-        end_flag: true
-      }
-    ];
-
     const store=useStore();
     let competitions=ref([]);
-    competitions.value=test;
+
+    $.ajax({
+      url:baseUrl+':8083/api/comp/info',
+      type:'GET',
+      success(resp){
+        competitions.value=resp.compInfo;
+      }
+    })
+
     let teamId=store.state.user.teamId;
 
     const sign=(competition)=>{
@@ -106,23 +77,31 @@ export default {
       let flag=window.confirm("是否报名");
       if (flag){
           if (!competition.end_flag){
-            competition.comp_flag=true;
+
             const result={
               teamId,
               uid:competition.uid,
               comp_flag:true
             };
-            console.log(result);
-            router.push({
-              name:'compGoing',
-              params:{
-                uid:competition.uid,
-                compName:competition.compName,
+
+            $.ajax({
+              url:baseUrl+':8083/api/comp/info',
+              type:'PUT',
+              data:result,
+              success(resp){
+                if (resp.status_code==200){
+                  competition.comp_flag=true;
+                  router.push({
+                    name:'compGoing',
+                    params:{
+                      uid:competition.uid,
+                      compName:competition.compName,
+                    }
+                  })
+                }
               }
             })
           }
-
-
       }
     }
 

@@ -31,6 +31,8 @@ import {ref} from "vue";
 import {useRoute} from "vue-router/dist/vue-router";
 import router from "@/router";
 import {useStore} from "vuex";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "TeamResume",
@@ -71,14 +73,24 @@ export default {
           content:content.value,
           flag:true
         }
-        console.log(result)
 
-        router.push({
-          name:'success',
-          params:{
-            flag:true
+        $.ajax({
+          url:baseUrl+':8082/api/team/sign',
+          type:'POST',
+          data:result,
+          success(resp){
+            if (resp.status_code==200){
+              router.push({
+                name:'success',
+                params:{
+                  flag:true
+                }
+              })
+            }
           }
         })
+
+
       }
 
 

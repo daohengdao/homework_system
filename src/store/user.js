@@ -1,3 +1,7 @@
+import baseUrl from "@/util/config";
+import $ from 'jquery';
+import jwt_decode from 'jwt-decode';
+
 const ModuleUser={
     state: {
         userId:"",
@@ -56,36 +60,58 @@ const ModuleUser={
         }
     },
     actions: {
-        login(context,date){
-           if (date.password=="test000"){
-               let access="023225";
-               let refresh="zadasdese";
-               context.commit('updateAccess',access);
+        login(context,data){
+            $.ajax({
+                url:baseUrl+":8080/api/token",
+                type:"POST",
+                crossDomain: true,
+                data:{
+                    username:data.username,
+                    password:data.password,
+                },
+                success(resp){
+                    const {access,refresh}=resp;
+                    const access_obj=jwt_decode(access);
 
-               let test={
-                   userId:"1",
-                   username:date.username,
-                   sex:"男",
-                   teamName:"啊对对队",
-                   teamId:"1",
-                   name:"张三",
-                   phone:"1215555666",
-                   identity:"队长",
-                   teacher:"老师1",
-                   stuNum:"02566596626",
-                   is_team:true
-               };
+                    setInterval(()=>{
+                        $.ajax({
+                            url:baseUrl+":8080/api/token/refresh",
+                            type:"POST",
+                            crossDomain: true,
+                            data:{
+                                refresh,
+                            },
+                            success(resp){
+                                context.commit('updateAccess',resp.access)
+                            }
+                        })
+                    },4.5*60*1000);
 
-               context.commit('updateUser',{
-                   ...test,
-                   access:access,
-                   refresh:refresh,
-                   is_login:true
-               });
-               date.success();
-           }else {
-               date.error();
-           }
+                    $.ajax({
+                        url:baseUrl+":8080/api/user",
+                        type:"GET",
+                        crossDomain: true,
+                        data:{
+                            user_id:access_obj.user_id,
+                        },
+                        headers:{
+                            'Authorization':"Bearer "+access,
+                        },
+                        success(resp){
+                            context.commit("updateUser",{
+                                ...resp.userInfo,
+                                access:access,
+                                refresh:refresh,
+                                is_login:true
+                            });
+                            data.success();
+                        }
+                    })
+                },
+                error(){
+                    data.error();
+                }
+            })
         }
     },
     modules: {

@@ -15,7 +15,6 @@
       <td>{{team.teamName}}</td>
       <td>
         <button type="submit" class="btn btn-primary" v-if="team.teacher=='' || team.teacher== null" @click="coaching(team)">指导</button>
-        <button type="submit" class="btn btn-primary" v-else-if="team.teacher!=$store.state.user.username" disabled>已被其他老师指导</button>
         <button type="submit" class="btn btn-primary" v-else @click="uncoaching(team)">取消指导</button>
       </td>
     </tr>
@@ -29,6 +28,8 @@ import ContentBase from "@/components/ContentBase";
 import {useStore} from "vuex";
 import router from "@/router";
 import {ref} from "vue";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "CoachingTeam",
@@ -46,43 +47,60 @@ export default {
     }
 
 
-    const test=[
-      {
-        uid:1,
-        teamName:'队伍1',
-        teacher: "老师1",
-      },
-      {
-        uid:2,
-        teamName:'队伍2',
-        teacher:"",
-      }
-    ];
+
 
     let teams=ref([]);
-    teams.value=test
+
+    $.ajax({
+      url:baseUrl+':8082/api/team',
+      type:'GET',
+      data:{
+        teacher:store.state.user.userId
+      },success(resp){
+        teams.value=resp.team;
+      }
+    });
+
+
+
 
 
     const coaching=team=>{
       let req={
-        team:team.uid,
-        teacher:store.state.user.userId
+
       }
 
-      team.teacher=store.state.user.username
+      $.ajax({
+        url:baseUrl+':8081/api/teacher',
+        type:'PUT',
+        data:{
+          team:team.uid,
+          teacher:store.state.user.userId
+        },success(resp){
+          if (resp.status_code == 200){
+            team.teacher=store.state.user.username
+          }
+        }
+      });
+
+
 
       console.log(req)
     }
 
     const uncoaching=team=>{
-      let req={
-        team:team.uid,
-        teacher:store.state.user.userId
-      }
-
-      team.teacher=''
-
-      console.log(req)
+      $.ajax({
+        url:baseUrl+':8081/api/teacher',
+        type:'DELETE',
+        data:{
+          team:team.uid,
+          teacher:store.state.user.userId
+        },success(resp){
+          if (resp.status_code == 200){
+            team.teacher=''
+          }
+        }
+      });
     }
 
     return{

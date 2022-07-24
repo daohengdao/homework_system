@@ -25,6 +25,8 @@ import ContentBase from "@/components/ContentBase";
 import router from "@/router";
 import {useStore} from "vuex";
 import {ref} from "vue";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "CompRecruit",
@@ -55,20 +57,25 @@ export default {
       }else if (new Date(Date.parse(beginTime.value))<new Date()){
         error_msg.value="开始时间不能早于当前时间";
       }else{
-        const result={
-          compName:compName.value,
-          content:content.value,
-          beginTime:beginTime.value,
-          endTime:endTime.value
-        }
-
-        console.log(result)
-
-
-        router.push({
-          name:'success',
-          params:{
-            flag:true
+        $.ajax({
+          url:baseUrl+':8083/api/comp/info',
+          type: 'POST',
+          data:{
+            compName:compName.value,
+            content:content.value,
+            beginTime:beginTime.value,
+            endTime:endTime.value
+          },success(resp){
+            if (resp.status_code == 200){
+              router.push({
+                name:'success',
+                params:{
+                  flag:true
+                }
+              })
+            }else {
+              error_msg.value='系统错误,请重试'
+            }
           }
         })
       }

@@ -45,6 +45,8 @@ import ContentBase from "@/components/ContentBase";
 import router from "@/router";
 import {ref} from "vue";
 import {useStore} from "vuex";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "CompReView",
@@ -54,33 +56,16 @@ export default {
   setup(){
     const store=useStore();
 
-    const test=[
-      {
-        uid:1,
-        compId:1,
-        compName:"比赛1",
-        github_id:1,
-        teamId:1,
-        teamName:"队伍1",
-        github:"https://www.baidu.com",
-        is_person:false,
-        is_review:false
-      },
-      {
-        uid:2,
-        compId:2,
-        compName:"比赛2",
-        teamId:2,
-        github_id:2,
-        teamName:"队伍2",
-        github:"https://www.bilibili.com",
-        is_person: true,
-        is_review: false
-      }
-    ]
-
     let comps=ref([]);
-    comps.value=test;
+
+
+    $.ajax({
+      url:baseUrl+':8083/api/comp/context',
+      type:'GET',
+      success(resp){
+        comps.value=resp.context;
+      }
+    })
 
 
     let username=store.state.user.username;
@@ -99,13 +84,22 @@ export default {
       }else {
         let flag=window.confirm("是否提交");
         if (flag){
-          comp.is_review=true;
           let result={
             uid:comp.uid,
             is_review:true,
             reward:reward
           }
-          console.log(result)
+          $.ajax({
+            url:baseUrl+':8083/api/comp/context',
+            type:'PUT',
+            data:result,
+            success(resp){
+              if (resp.status.code==200){
+                comp.is_review=true;
+              }
+            }
+          })
+
         }
       }
     }

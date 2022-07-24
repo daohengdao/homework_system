@@ -22,7 +22,8 @@ import ContentBase from "@/components/ContentBase";
 import router from "@/router/index";
 import {useStore} from "vuex";
 import {ref} from "vue";
-
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 
 export default {
@@ -43,7 +44,6 @@ export default {
       end:new Date()
     }
 
-
     let error_msg=ref('');
 
     if (identity!="队长"){
@@ -51,7 +51,6 @@ export default {
         name:'404',
       });
     }
-
 
     const Submit=()=>{
       console.log(new Date(Date.parse(context.begin))>new Date(Date.parse(context.end)))
@@ -66,17 +65,23 @@ export default {
       }else{
         console.log(context)
 
-        router.push({
-          name:'success',
-          params:{
-            flag:true
+        $.ajax({
+          url:baseUrl+':8082/api/team',
+          type:'POST',
+          data:context,
+          success(resp){
+            if (resp.status_code==200){
+              router.push({
+                name:'success',
+                params:{
+                  flag:true
+                }
+              })
+            }
           }
         })
       }
-
     }
-
-
 
     return{
       context,

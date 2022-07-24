@@ -102,7 +102,9 @@
 import ContentBase from '../components/ContentBase';
 import {ref} from "vue";
 import router from "@/router";
-
+import $ from 'jquery'
+import baseUrl from "@/util/config";
+import {useStore} from "vuex";
 
 export default {
   name: 'RegisterView',
@@ -110,6 +112,8 @@ export default {
     ContentBase,
   },
   setup(){
+    const store=useStore();
+
     const useInfo={
       name:'',
       username:'',
@@ -133,11 +137,25 @@ export default {
     const register=()=>{
       error_msg.value='';
 
-      console.log(useInfo)
-
-      alert("注册成功")
-      router.push({
-        name:'login',
+      $.ajax({
+        url:baseUrl+':8080/api/register',
+        type:"POST",
+        data:useInfo,
+        success(resp){
+          if (resp.result=="success"){
+            store.dispatch("login",{
+              username:useInfo.username,
+              password:useInfo.password,
+              success(){
+                router.push({name:'home'})
+              },error(){
+                error_msg.value='系统异常,请稍后重试';
+              }
+            })
+          }else{
+            error_msg.value=resp.result;
+          }
+        }
       })
     }
 

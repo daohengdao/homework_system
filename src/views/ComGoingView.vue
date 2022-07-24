@@ -18,13 +18,10 @@ import {useRoute} from 'vue-router'
 import router from "@/router";
 import {ref} from "vue";
 import {useStore} from "vuex";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 
-const error=()=>{
-
-}
-
-error()
 
 export default {
   name: "ComGoing",
@@ -65,13 +62,23 @@ export default {
           end_flag:true,
           github:github.value
         }
-        console.log(result);
-        router.push({
-          name:'success',
-          params:{
-            flag:"true"
+
+        $.ajax({
+          url:baseUrl+':8083/api/comp',
+          type:"POST",
+          data:result,
+          success(resp){
+            if (resp.status==200){
+              router.push({
+                name:'success',
+                params:{
+                  flag:"true"
+                }
+              });
+            }
           }
-        });
+        })
+
       }
 
     }

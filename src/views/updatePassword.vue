@@ -28,6 +28,10 @@ import ContentBase from "@/components/ContentBase";
 import {useStore} from "vuex";
 import {ref} from "vue";
 import router from "@/router";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
+
+
 
 export default {
   name: "updatePassword",
@@ -56,14 +60,28 @@ export default {
     }
 
     const modify=()=>{
+      error_msg.value=''
       if (modifyPassword.new_password!=modifyPassword.new_passComfirm){
         error_msg.value='两次输入的密码不一致'
       }else {
-        console.log(modifyPassword);
-        router.push({
-          name:'success',
-          params:{
-            flag:true
+        $.ajax({
+          url:baseUrl+':8080/api/password',
+          type:'PUT',
+          data:{
+            username: modifyPassword.username,
+            old_password: modifyPassword.old_password,
+            new_password:modifyPassword.new_password,
+          },success(resp){
+            if (resp.result=="success"){
+              router.push({
+                name:'success',
+                params:{
+                  flag:true
+                }
+              })
+            }else {
+              error_msg.value='系统繁忙,请重试'
+            }
           }
         })
       }

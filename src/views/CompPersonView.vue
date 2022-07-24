@@ -30,6 +30,8 @@ import ContentBase from "@/components/ContentBase";
 import {useRoute} from "vue-router";
 import router from "@/router";
 import {ref} from "vue";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "CompPersonView",
@@ -46,38 +48,28 @@ export default {
       })
     }
 
-    const test={
-      count:2,
-      info:[
-        {
-          id:1,
-          name:"张三",
-          username:"test000",
-          modelName:""
-        },
-        {
-          id:2,
-          name: "李四",
-          username: "lisi000",
-          modelName: ""
-        }
-      ]
-    };
 
+
+    let count=0;
     let people=ref([]);
-    people.value=test.info;
 
-
-    console.log(teamId)
-    console.log(compId)
-    console.log(uid)
-
+    $.ajax({
+      url:baseUrl+':8083/api/comp/user',
+      type: 'GET',
+      data:{
+        compId,
+        teamId
+      },success(resp){
+        people.value=resp.userInfo;
+        count=resp.count;
+      }
+    })
 
     const point=()=>{
       let result=ref([]);
 
 
-      for (let i=0;i<test.count;i++) {
+      for (let i=0;i<count;i++) {
 
         if (people.value[i].modelName == '') {
           alert("第"+(i+1)+"人的分数不能为空")
@@ -91,17 +83,30 @@ export default {
         }
       }
 
-      for (let i=0;i<test.count;i++) {
-        console.log(result.value[i])
+      for (let i=0;i<count;i++) {
+        $.ajax({
+          url:baseUrl+':8083/api/comp/user',
+          type: 'PUT',
+          data:{
+            userId:result.value[i].id,
+            compId,
+            point:result.value[i].point
+          },
+        })
       }
+
+
 
       let is_person=true;
-      let review={
-        uid,
-        is_person
-      }
 
-      console.log(review)
+      $.ajax({
+        url:baseUrl+':8083/api/comp/user/flag',
+        type: 'PUT',
+        data:{
+          uid,
+          is_person
+        },
+      })
 
     }
 

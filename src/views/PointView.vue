@@ -42,6 +42,8 @@ import ContentBase from "@/components/ContentBase";
 import {ref} from "vue";
 import {useStore} from "vuex";
 import router from "@/router";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "PointView",
@@ -60,49 +62,16 @@ export default {
     }else if (!store.state.user.is_team){
       teams.value=null
     }else if (store.state.user.identity=='队长' || store.state.user.identity=='队员'){
-      const test=[
-        {
-          id:1,
-          compName:"开发大赛",
-          teamPoint:"特等奖",
-          memberPoint:[
-            {
-              username:"test",
-              name:"李华",
-              point:72,
-              ranking:1
-            },
-            {
-              username:"test2",
-              name:"李明",
-              point:70,
-              ranking:2
-            }
-          ]
-        },
-        {
-          id:2,
-          compName:"第二开发大赛",
-          teamPoint:"一等奖",
-          memberPoint:[
-            {
-              username:"test2",
-              name:"李明",
-              point:65,
-              ranking:1
-            },
-            {
-              username:"test2",
-              name:"李明",
-              point:55,
-              ranking:2
-            }
-          ]
+      $.ajax({
+        url: baseUrl + ":8083/api/comp/point",
+        type:'GET',
+        data:{
+          teamId:store.state.user.teamId,
+        },success(resp){
+          teams.value=resp.points;
         }
-      ];
+      })
 
-
-      teams.value=test;
     }else {
       router.push({
         name:'404'

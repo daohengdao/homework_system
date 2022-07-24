@@ -45,6 +45,8 @@ import ContentBase from "@/components/ContentBase";
 import {ref} from "vue";
 import router from "@/router";
 import {useStore} from "vuex";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "TeamReview",
@@ -60,29 +62,18 @@ export default {
       });
     }
 
-    const test=[
-      {
-        id:"1",
-        name:"张三",
-        username:"test",
-        context:"特长1........",
-        flag:false,
-        is_interview:'',
-        result:''
-      },
-      {
-        id:"2",
-        name:"李四",
-        username:"test1",
-        context:"特长2........",
-        flag: false,
-        is_interview: '',
-        result: ''
-      }
-    ];
-
     let users=ref([]);
-    users.value=test;
+
+    $.ajax({
+      url:baseUrl+':8082/api/team/sign',
+      type:'GET',
+      data:{
+        teamId:store.state.user.teamId
+      },
+      success(resp){
+        users.value=resp.userInfo;
+      }
+    })
 
 
     const confirm=(user)=>{
@@ -91,13 +82,21 @@ export default {
       }else if(user.is_interview =="" || user.result==""){
         alert('请选择下拉框')
       }else {
-        user.flag=true;
+
         let results={
           id:user.id,
           is_interview:user.is_interview,
           result:user.result
         }
-        console.log(results);
+
+        $.ajax({
+          url:baseUrl+':8082/api/team/sign',
+          type:'PUT',
+          data:results,
+          success(){
+            user.flag=true;
+          }
+        })
       }
     }
 

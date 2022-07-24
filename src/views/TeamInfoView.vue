@@ -33,6 +33,8 @@ import ContentBase from "../components/ContentBase";
 import {ref} from "vue";
 import {useStore} from "vuex";
 import router from "@/router";
+import $ from 'jquery'
+import baseUrl from "@/util/config";
 
 export default {
   name: "TeamInfo",
@@ -50,31 +52,17 @@ export default {
       })
     }
 
-    const test=
-        [
-          {
-            id:1,
-            username:"test",
-            name:"李华",
-            sex:"男",
-            identity:"老师",
-            stuNum:202012528,
-            phone:1254468225
-          },
-          {
-            id:2,
-            username:"test2",
-            name:"李明",
-            sex:"男",
-            identity:"学生",
-            stuNum:202012526,
-            phone:12544682255
-          }
-        ];
-
-
     let teams=ref([]);
-    teams.value=test
+    $.ajax({
+      url:baseUrl+':8082/api/team',
+      type:'GET',
+      data:{
+        teamId:store.state.user.teamId,
+      },success(resp){
+        teams.value=resp.member;
+      }
+    })
+
     return{
       teams
     }

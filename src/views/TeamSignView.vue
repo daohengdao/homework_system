@@ -45,7 +45,8 @@ import ContentBase from "../components/ContentBase";
 import {ref} from "vue";
 import router from "@/router";
 import {useStore} from "vuex";
-
+import $ from 'jquery';
+import baseUrl from "@/util/config";
 
 export default {
   name: "TeamSign",
@@ -64,39 +65,20 @@ export default {
       })
     }
 
-
-    const test=[
-      {
-        uid: 1,
-        teamId:1,
-        teamName:'队伍1',
-        context:'测试1',
-        begin:'2022-07-20T10:26',
-        end:'2022-07-30T10:26',
-        flag:false,
-        result:""
-      },
-      {
-        uid:2,
-        teamId:2,
-        teamName:'队伍2',
-        context:'测试2',
-        begin:'2022-07-25T10:26',
-        end:'2022-07-26T10:26',
-        flag:false,
-        result: ""
-      }
-    ];
-
     let teams=ref([]);
-    teams.value=test
+    $.ajax({
+      url:baseUrl+':8082/api/team/signs',
+      type:'GET',
+      data:{
+        userId:store.state.user.userId,
+      },success(resp){
+        teams.value=resp.teams;
+      }
+    })
 
     const sign=team=>{
       let flag=window.confirm("是否报名");
       if (flag){
-        team.flag=true;
-        console.log(team);
-
         router.push({
           name:'teamResume',
           params:{
