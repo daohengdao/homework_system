@@ -66,7 +66,7 @@ export default {
         console.log(context)
 
         $.ajax({
-          url:baseUrl+':8082/api/team',
+          url:baseUrl+'/api/team',
           type:'POST',
           data:context,
           success(resp){

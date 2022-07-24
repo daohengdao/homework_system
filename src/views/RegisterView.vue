@@ -138,7 +138,7 @@ export default {
       error_msg.value='';
 
       $.ajax({
-        url:baseUrl+':8080/api/register',
+        url:baseUrl+'/api/register',
         type:"POST",
         data:useInfo,
         success(resp){

@@ -63,7 +63,7 @@ export default {
     let competitions=ref([]);
 
     $.ajax({
-      url:baseUrl+':8083/api/comp/info',
+      url:baseUrl+'/api/comp/info',
       type:'GET',
       success(resp){
         competitions.value=resp.compInfo;
@@ -85,7 +85,7 @@ export default {
             };
 
             $.ajax({
-              url:baseUrl+':8083/api/comp/info',
+              url:baseUrl+'/api/comp/info',
               type:'PUT',
               data:result,
               success(resp){

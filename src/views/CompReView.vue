@@ -60,7 +60,7 @@ export default {
 
 
     $.ajax({
-      url:baseUrl+':8083/api/comp/context',
+      url:baseUrl+'/api/comp/context',
       type:'GET',
       success(resp){
         comps.value=resp.context;
@@ -90,7 +90,7 @@ export default {
             reward:reward
           }
           $.ajax({
-            url:baseUrl+':8083/api/comp/context',
+            url:baseUrl+'/api/comp/context',
             type:'PUT',
             data:result,
             success(resp){

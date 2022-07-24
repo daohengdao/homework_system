@@ -52,7 +52,7 @@ export default {
     let teams=ref([]);
 
     $.ajax({
-      url:baseUrl+':8082/api/team',
+      url:baseUrl+'/api/team',
       type:'GET',
       data:{
         teacher:store.state.user.userId
@@ -71,7 +71,7 @@ export default {
       }
 
       $.ajax({
-        url:baseUrl+':8081/api/teacher',
+        url:baseUrl+'/api/teacher',
         type:'PUT',
         data:{
           team:team.uid,
@@ -90,7 +90,7 @@ export default {
 
     const uncoaching=team=>{
       $.ajax({
-        url:baseUrl+':8081/api/teacher',
+        url:baseUrl+'/api/teacher',
         type:'DELETE',
         data:{
           team:team.uid,

@@ -64,17 +64,19 @@ export default {
         }
 
         $.ajax({
-          url:baseUrl+':8083/api/comp',
+          url:baseUrl+'/api/comp',
           type:"POST",
           data:result,
           success(resp){
-            if (resp.status==200){
+            if (resp.result=="success"){
               router.push({
                 name:'success',
                 params:{
                   flag:"true"
                 }
               });
+            }else{
+              error_msg.value=resp.result;
             }
           }
         })

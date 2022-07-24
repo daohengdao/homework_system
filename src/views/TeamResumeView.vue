@@ -75,7 +75,7 @@ export default {
         }
 
         $.ajax({
-          url:baseUrl+':8082/api/team/sign',
+          url:baseUrl+'/api/team/sign',
           type:'POST',
           data:result,
           success(resp){

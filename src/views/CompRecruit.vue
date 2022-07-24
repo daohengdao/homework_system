@@ -58,7 +58,7 @@ export default {
         error_msg.value="开始时间不能早于当前时间";
       }else{
         $.ajax({
-          url:baseUrl+':8083/api/comp/info',
+          url:baseUrl+'/api/comp/info',
           type: 'POST',
           data:{
             compName:compName.value,

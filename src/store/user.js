@@ -62,7 +62,7 @@ const ModuleUser={
     actions: {
         login(context,data){
             $.ajax({
-                url:baseUrl+":8080/api/token",
+                url:baseUrl+"/api/token",
                 type:"POST",
                 crossDomain: true,
                 data:{
@@ -75,7 +75,7 @@ const ModuleUser={
 
                     setInterval(()=>{
                         $.ajax({
-                            url:baseUrl+":8080/api/token/refresh",
+                            url:baseUrl+"/api/token/refresh",
                             type:"POST",
                             crossDomain: true,
                             data:{
@@ -88,7 +88,7 @@ const ModuleUser={
                     },4.5*60*1000);
 
                     $.ajax({
-                        url:baseUrl+":8080/api/user",
+                        url:baseUrl+"/api/user",
                         type:"GET",
                         crossDomain: true,
                         data:{

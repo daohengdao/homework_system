@@ -63,7 +63,7 @@ export default {
       teams.value=null
     }else if (store.state.user.identity=='队长' || store.state.user.identity=='队员'){
       $.ajax({
-        url: baseUrl + ":8083/api/comp/point",
+        url: baseUrl + "/api/comp/point",
         type:'GET',
         data:{
           teamId:store.state.user.teamId,

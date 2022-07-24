@@ -65,7 +65,7 @@ export default {
         error_msg.value='两次输入的密码不一致'
       }else {
         $.ajax({
-          url:baseUrl+':8080/api/password',
+          url:baseUrl+'/api/password',
           type:'PUT',
           data:{
             username: modifyPassword.username,
