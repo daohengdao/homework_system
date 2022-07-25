@@ -54,7 +54,7 @@ export default {
 
     let teams=ref([]);
     $.ajax({
-      url:baseUrl+'/api/team',
+      url:baseUrl+'/api/team/member',
       type:'GET',
       data:{
         teamId:store.state.user.teamId,
