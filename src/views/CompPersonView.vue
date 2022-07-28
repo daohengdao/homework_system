@@ -76,6 +76,7 @@ export default {
           return
         }else {
           result.value[i]={
+            identity:people.value[i].identity,
             userId:people.value[i].id,
             compId,
             point:people.value[i].modelName
@@ -88,9 +89,11 @@ export default {
           url:baseUrl+'/api/comp/user',
           type: 'PUT',
           data:{
-            userId:result.value[i].id,
+            userId:result.value[i].userId,
             compId,
-            point:result.value[i].point
+            identity:result.value[i].identity,
+            point:result.value[i].point,
+            uid
           },
         })
       }

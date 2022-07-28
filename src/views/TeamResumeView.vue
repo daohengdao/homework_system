@@ -53,6 +53,7 @@ export default {
 
     const teamName=route.params.teamName;
     const teamId=route.params.teamId;
+    const uid=route.params.uid;
 
 
     if (typeof(teamName)=='undefined' || !store.state.user.is_login){
@@ -70,6 +71,7 @@ export default {
         let result={
           userId:store.state.user.userId,
           teamId,
+          uid,
           content:content.value,
           flag:true
         }

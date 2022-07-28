@@ -83,7 +83,8 @@ export default {
           name:'teamResume',
           params:{
             teamName:team.teamName,
-            teamId:team.teamId
+            teamId:team.teamId,
+            uid:team.uid,
           }
         });
       }

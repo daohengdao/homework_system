@@ -62,15 +62,22 @@ export default {
     const store=useStore();
     let competitions=ref([]);
 
+    const userId=store.state.user.userId
+
     $.ajax({
       url:baseUrl+'/api/comp/info',
       type:'GET',
-      success(resp){
+      data:{
+        teamId:store.state.user.teamId,
+        userId:store.state.user.userId,
+        identity:store.state.user.identity
+      },success(resp){
         competitions.value=resp.compInfo;
       }
     })
 
     let teamId=store.state.user.teamId;
+    let identity=store.state.user.identity;
 
     const sign=(competition)=>{
 
@@ -79,6 +86,8 @@ export default {
           if (!competition.end_flag){
 
             const result={
+              identity,
+              userId,
               teamId,
               uid:competition.uid,
               comp_flag:true

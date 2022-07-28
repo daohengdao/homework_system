@@ -66,10 +66,6 @@ export default {
 
 
     const coaching=team=>{
-      let req={
-
-      }
-
       $.ajax({
         url:baseUrl+'/api/teacher',
         type:'PUT',
@@ -82,10 +78,6 @@ export default {
           }
         }
       });
-
-
-
-      console.log(req)
     }
 
     const uncoaching=team=>{

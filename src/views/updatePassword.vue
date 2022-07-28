@@ -80,7 +80,7 @@ export default {
                 }
               })
             }else {
-              error_msg.value='系统繁忙,请重试'
+              error_msg.value=resp.result
             }
           }
         })
