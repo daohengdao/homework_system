@@ -65,7 +65,7 @@ export default {
     let users=ref([]);
 
     $.ajax({
-      url:baseUrl+'/api/team/sign',
+      url:baseUrl+'/api/team/sign/',
       type:'GET',
       data:{
         teamId:store.state.user.teamId
@@ -91,7 +91,7 @@ export default {
         }
 
         $.ajax({
-          url:baseUrl+'/api/team/sign',
+          url:baseUrl+'/api/team/sign/',
           type:'PUT',
           data:results,
           success(){

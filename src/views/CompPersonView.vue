@@ -54,7 +54,7 @@ export default {
     let people=ref([]);
 
     $.ajax({
-      url:baseUrl+'/api/comp/user',
+      url:baseUrl+'/api/comp/user/',
       type: 'GET',
       data:{
         compId,
@@ -86,7 +86,7 @@ export default {
 
       for (let i=0;i<count;i++) {
         $.ajax({
-          url:baseUrl+'/api/comp/user',
+          url:baseUrl+'/api/comp/user/',
           type: 'PUT',
           data:{
             userId:result.value[i].userId,
@@ -103,12 +103,19 @@ export default {
       let is_person=true;
 
       $.ajax({
-        url:baseUrl+'/api/comp/user/flag',
+        url:baseUrl+'/api/comp/user/flag/',
         type: 'PUT',
         data:{
           uid,
           is_person
         },
+      })
+
+      router.push({
+        name:'success',
+        params:{
+          flag:true
+        }
       })
 
     }

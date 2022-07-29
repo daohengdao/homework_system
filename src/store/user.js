@@ -62,7 +62,7 @@ const ModuleUser={
     actions: {
         login(context,data){
             $.ajax({
-                url:baseUrl+"/api/token",
+                url:baseUrl+"/api/token/",
                 type:"POST",
                 crossDomain: true,
                 data:{
@@ -70,14 +70,22 @@ const ModuleUser={
                     password:data.password,
                 },
                 success(resp){
-                    const {access,refresh}=resp;
+
+                    const access = resp.access
+                    const refresh = resp.refresh
+
+                    console.log(typeof access)
+
                     const access_obj=jwt_decode(access);
 
                     setInterval(()=>{
                         $.ajax({
-                            url:baseUrl+"/api/token/refresh",
+                            url:baseUrl+"/api/token/refresh/",
                             type:"POST",
                             crossDomain: true,
+                            headers:{
+                                'Authorization':"Bearer "+access,
+                            },
                             data:{
                                 refresh,
                             },
@@ -85,14 +93,16 @@ const ModuleUser={
                                 context.commit('updateAccess',resp.access)
                             }
                         })
-                    },4.5*60*1000);
+                    },1000*60*4.5);
+
 
                     $.ajax({
-                        url:baseUrl+"/api/user",
+                        url:baseUrl+"/api/user/",
                         type:"GET",
                         crossDomain: true,
                         data:{
-                            user_id:access_obj.user_id,
+                            username:access_obj.username,
+                            identity:access_obj.identity,
                         },
                         headers:{
                             'Authorization':"Bearer "+access,

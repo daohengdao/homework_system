@@ -5,11 +5,11 @@
       <form @submit.prevent="modify">
         <div class="mb-3">
           <label for="username" class="form-label">原密码</label>
-          <input v-model="modifyPassword.old_password" type="text" class="form-control" id="old">
+          <input v-model="modifyPassword.old_password" type="password" class="form-control" id="old">
         </div>
         <div class="mb-3">
           <label for="username" class="form-label">新密码</label>
-          <input v-model="modifyPassword.new_password" type="text" class="form-control" id="new">
+          <input v-model="modifyPassword.new_password" type="password" class="form-control" id="new">
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">确认密码</label>
@@ -65,13 +65,15 @@ export default {
         error_msg.value='两次输入的密码不一致'
       }else {
         $.ajax({
-          url:baseUrl+'/api/password',
+          url:baseUrl+'/api/password/',
           type:'PUT',
           data:{
             username: modifyPassword.username,
             old_password: modifyPassword.old_password,
             new_password:modifyPassword.new_password,
           },success(resp){
+
+
             if (resp.result=="success"){
               router.push({
                 name:'success',

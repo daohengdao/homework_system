@@ -51,8 +51,10 @@ export default {
 
     let teams=ref([]);
 
+
+    console.log("success")
     $.ajax({
-      url:baseUrl+'/api/team',
+      url:baseUrl+'/api/team/',
       type:'GET',
       data:{
         teacher:store.state.user.userId
@@ -67,7 +69,7 @@ export default {
 
     const coaching=team=>{
       $.ajax({
-        url:baseUrl+'/api/teacher',
+        url:baseUrl+'/api/teacher/',
         type:'PUT',
         data:{
           team:team.uid,
@@ -82,8 +84,8 @@ export default {
 
     const uncoaching=team=>{
       $.ajax({
-        url:baseUrl+'/api/teacher',
-        type:'DELETE',
+        url:baseUrl+'/api/teacher/un/',
+        type:'PUT',
         data:{
           team:team.uid,
           teacher:store.state.user.userId

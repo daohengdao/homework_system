@@ -60,10 +60,10 @@ export default {
 
 
     $.ajax({
-      url:baseUrl+'/api/comp/context',
+      url:baseUrl+'/api/comp/context/',
       type:'GET',
       success(resp){
-        comps.value=resp.context;
+        comps.value=resp.Context;
       }
     })
 
@@ -83,14 +83,17 @@ export default {
         alert('请选择奖项')
       }else {
         let flag=window.confirm("是否提交");
+
         if (flag){
           let result={
             uid:comp.uid,
             is_review:true,
             reward:reward
           }
+
+          comp.is_review=true;
           $.ajax({
-            url:baseUrl+'/api/comp/context',
+            url:baseUrl+'/api/comp/context/',
             type:'PUT',
             data:result,
             success(resp){

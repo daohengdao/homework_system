@@ -64,7 +64,7 @@ export default {
         }
 
         $.ajax({
-          url:baseUrl+'/api/comp',
+          url:baseUrl+'/api/comp/',
           type:"POST",
           data:result,
           success(resp){

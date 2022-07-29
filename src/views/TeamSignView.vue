@@ -22,9 +22,9 @@
           <td>{{team.begin}}</td>
           <td>{{team.end}}</td>
           <td>
-            <button type="submit" class="btn btn-primary" v-if="!team.flag && new Date(Date.parse(team.end) )>=new Date() && new Date(Date.parse(team.begin) )<=new Date()" @click="sign(team)">报名</button>
+            <button type="submit" class="btn btn-primary" v-if="!team.flag && new Date(new Date(Date.parse(team.end)).getTime() - 8 * 60 * 60 * 1000)>=new Date() && new Date(new Date(Date.parse(team.begin)).getTime() - 8 * 60 * 60 * 1000)<=new Date()" @click="sign(team)">报名</button>
             <button type="submit" class="btn btn-primary" v-else-if="team.flag" disabled>已报名</button>
-            <button type="submit" class="btn btn-primary" v-else-if="new Date(Date.parse(team.begin)) >new Date()&& !team.flag" disabled>未开始</button>
+            <button type="submit" class="btn btn-primary" v-else-if="new Date(new Date(Date.parse(team.begin)).getTime() - 8 * 60 * 60 * 1000) >new Date()&& !team.flag" disabled>未开始</button>
             <button type="submit" class="btn btn-primary" v-else disabled>已截止</button>
           </td>
           <td>{{team.result}}</td>
@@ -67,7 +67,7 @@ export default {
 
     let teams=ref([]);
     $.ajax({
-      url:baseUrl+'/api/team/signs',
+      url:baseUrl+'/api/team/signs/',
       type:'GET',
       data:{
         userId:store.state.user.userId,

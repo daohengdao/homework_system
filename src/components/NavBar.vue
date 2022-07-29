@@ -27,7 +27,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link class="nav-link" :to="{name:'compRegister'}" v-if="$store.state.user.is_login && $store.state.user.username!='admin' && $store.state.user.identity!='老师'">比赛报名</router-link>
+            <router-link class="nav-link" :to="{name:'compRegister'}" v-if="$store.state.user.is_login && $store.state.user.is_team && $store.state.user.username!='admin' && $store.state.user.identity!='老师'">比赛报名</router-link>
           </li>
 
 

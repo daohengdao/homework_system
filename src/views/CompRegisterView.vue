@@ -23,10 +23,10 @@
           <td>{{competition.end}}</td>
           <td>
             <button type="submit" class="btn btn-primary" v-if="!competition.comp_flag
-            && new Date(Date.parse(competition.end) )>=new Date()
-            && new Date(Date.parse(competition.begin) )<=new Date()" @click="sign(competition)">报名</button>
+            && new Date(new Date(Date.parse(competition.end)).getTime() - 8 * 60 * 60 * 1000) >=new Date()
+            &&  new Date(new Date(Date.parse(competition.begin)).getTime() - 8 * 60 * 60 * 1000) <=new Date()" @click="sign(competition)">报名</button>
             <button type="submit" class="btn btn-primary" v-else-if="competition.comp_flag" disabled>已报名</button>
-            <button type="submit" class="btn btn-primary" v-else-if="new Date(Date.parse(competition.begin)) >new Date()&& !competition.comp_flag" disabled>未开始</button>
+            <button type="submit" class="btn btn-primary" v-else-if="new Date(new Date(Date.parse(competition.end)).getTime() - 8 * 60 * 60 * 1000) >new Date()&& !competition.comp_flag" disabled>未开始</button>
             <button type="submit" class="btn btn-primary" v-else disabled>已截止</button>
           </td>
 
@@ -64,8 +64,12 @@ export default {
 
     const userId=store.state.user.userId
 
+
+
+
+
     $.ajax({
-      url:baseUrl+'/api/comp/info',
+      url:baseUrl+'/api/comp/info/',
       type:'GET',
       data:{
         teamId:store.state.user.teamId,
@@ -80,10 +84,11 @@ export default {
     let identity=store.state.user.identity;
 
     const sign=(competition)=>{
-
       let flag=window.confirm("是否报名");
+
       if (flag){
-          if (!competition.end_flag){
+          if (!competition.comp_flag){
+
 
             const result={
               identity,
@@ -94,7 +99,7 @@ export default {
             };
 
             $.ajax({
-              url:baseUrl+'/api/comp/info',
+              url:baseUrl+'/api/comp/info/',
               type:'PUT',
               data:result,
               success(resp){
